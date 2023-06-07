@@ -1,8 +1,8 @@
 from typing import Any
-from fastapi import Response
+from fastapi import Response, HTTPException
 
 
-class BaseException(Exception):
+class BaseException(HTTPException):
     def __init__(
         self,
         error_message: Any = "Internal Server Error.",
@@ -16,24 +16,27 @@ class BaseException(Exception):
         self.status_code = status_code
         self.error_type = error_type
         self.error_details = error_details
-        super().__init__(error_message, *args, **kwargs)
+        self.body = {
+            "errorType": self.error_type,
+            "errorDesc": self.error_message,
+            "errorDetails": self.error_details,
+        }
+        super().__init__(
+            status_code=self.status_code, detail=self.body, *args, **kwargs
+        )
 
-    def get(self) -> dict:
+    def getError(self):
         return {
-            "body": {
-                "errorType": self.error_type,
-                "errorDesc": self.error_message,
-                "errorDetails": self.error_details,
-            },
+            "body": self.body,
             "status_code": self.status_code,
         }
 
 
-class ConfigNotFoundException(Exception):
+class ConfigNotFoundException(HTTPException):
     pass
 
 
-class UnknownError(Exception):
+class UnknownError(HTTPException):
     pass
 
 

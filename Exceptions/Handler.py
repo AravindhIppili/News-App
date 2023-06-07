@@ -1,33 +1,29 @@
-# from . import BaseException, ValidationError
-# import logging
-# import traceback
-# import json
-# from fastapi import Response
+from . import BaseException, ValidationError
+import logging
+import traceback
+import json
+from fastapi import HTTPException, Response
 
-# logger = logging.getLogger()
+logger = logging.getLogger()
 
 
-# def exceptionHandler(exception, return_error_body=False):
-#     try:
-#         raise exception
-#     except ValidationError as e:
-#         response = e.getError()
-#     # except Exception as e:
-#     #     logger.error(traceback.format_exc())
-#     #     logger.error(e)
-#     #     response = BaseException("Unexpected error occured.").getError()
-#     # print("c")
-#     print("xbdhd")
-#     if isinstance(response, Response):
-#         return response
+def exceptionHandler(exception):
+    try:
+        raise exception
+    except ValidationError as e:
+        response = e.getError()
+    except Exception as e:
+        logger.error(traceback.format_exc())
+        logger.error(e)
+        response = BaseException("Unexpected error occured.").getError()
 
-#     if not return_error_body:
-#         body = json.dumps(response.get("body"))
-#         response = Response(
-#             status_code=response.get("statusCode", response.get("status_code")),
-#             body=body,
-#             content_type=response.get("contentType", "application/json"),
-#             headers=response.get("headers"),
-#         )
-#     print(response)
-#     return response
+    if isinstance(response, Response):
+        return response
+    body = response.get("body")
+    response = Response(
+        status_code=response.get("status_code"),
+        content=json.dumps(body),
+        headers=response.get("headers"),
+        media_type="application/json",
+    )
+    return response

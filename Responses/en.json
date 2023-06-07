@@ -1,4 +1,6 @@
 {
     "body_required": "Request body not Found.",
-    "json_content_type_required": "Content type should be json"
+    "json_content_type_required": "Content type should be json.",
+    "un_authorized": "User Not Authorized.",
+    "not_valid_token": "Not a valid token."
 }

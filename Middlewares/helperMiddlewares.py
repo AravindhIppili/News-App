@@ -1,25 +1,8 @@
 from fastapi import Request
 from Exceptions import ValidationError
 from Responses import Responses
-from starlette.middleware.base import BaseHTTPMiddleware
 from typing import Any
-
-
-class BaseMiddleware(BaseHTTPMiddleware):
-    def __init__(self, app, paths) -> None:
-        super().__init__(app)
-        self.paths = paths
-
-    async def set_body(self, request: Request, body: bytes, json_body: Any) -> None:
-        async def receive():
-            return {"type": "http.request", "body": body, "json": json_body}
-
-        request._receive = receive
-
-    async def get_body(self, request: Request) -> bytes:
-        body = await request.body()
-        await self.set_body(request, body, await request.json() if body else None)
-        return body
+from .Base import BaseMiddleware
 
 
 class BodyRequiredMiddleware(BaseMiddleware):
@@ -27,8 +10,7 @@ class BodyRequiredMiddleware(BaseMiddleware):
         super().__init__(app, paths)
 
     async def dispatch(self, request: Request, call_next) -> Any:
-        body = await request.body()
-        await self.set_body(request, body, await request.json() if body else None)
+        await self.set_body(request, await request.body())
         body = await self.get_body(request)
 
         if not body and request.method == "POST" and request.url.path in self.paths:

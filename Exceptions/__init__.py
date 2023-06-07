@@ -50,3 +50,15 @@ class ValidationError(BaseException):
         **kwargs
     ) -> None:
         super().__init__(error_message, status_code, error_type, *args, **kwargs)
+
+
+class UnAuthorized(BaseException):
+    def __init__(
+        self,
+        error_message: Any = None,
+        status_code: int = 401,
+        error_type: str = "UnAuthorized",
+        *args,
+        **kwargs
+    ) -> None:
+        super().__init__(error_message, status_code, error_type, *args, **kwargs)

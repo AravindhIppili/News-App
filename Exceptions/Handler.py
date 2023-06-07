@@ -1,8 +1,8 @@
-from . import BaseException, ValidationError
+from . import BaseException, ValidationError, UnAuthorized
 import logging
 import traceback
 import json
-from fastapi import HTTPException, Response
+from fastapi import Response
 
 logger = logging.getLogger()
 
@@ -11,6 +11,8 @@ def exceptionHandler(exception):
     try:
         raise exception
     except ValidationError as e:
+        response = e.getError()
+    except UnAuthorized as e:
         response = e.getError()
     except Exception as e:
         logger.error(traceback.format_exc())

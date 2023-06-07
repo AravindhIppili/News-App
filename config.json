@@ -1,4 +1,6 @@
 {
-    "common": {},
+    "common": {
+        "NEWSAPI_MAX_ARTICLES": 5
+    },
     "dev": {}
 }

@@ -62,3 +62,15 @@ class UnAuthorized(BaseException):
         **kwargs
     ) -> None:
         super().__init__(error_message, status_code, error_type, *args, **kwargs)
+
+
+class UserExists(BaseException):
+    def __init__(
+        self,
+        error_message: Any = None,
+        status_code: int = 409,
+        error_type: str = "UserExists",
+        *args,
+        **kwargs
+    ) -> None:
+        super().__init__(error_message, status_code, error_type, *args, **kwargs)

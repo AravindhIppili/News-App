@@ -4,3 +4,5 @@ eventregistry==9.0
 kink
 SQLAlchemy
 mysql-connector-python
+pydantic
+pydantic[email]

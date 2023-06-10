@@ -1,4 +1,4 @@
-from . import BaseException, ValidationError, UnAuthorized
+from . import BaseException, ValidationError, UnAuthorized, UserExists
 import logging
 import traceback
 import json
@@ -10,9 +10,7 @@ logger = logging.getLogger()
 def exceptionHandler(exception):
     try:
         raise exception
-    except ValidationError as e:
-        response = e.getError()
-    except UnAuthorized as e:
+    except (ValidationError, UnAuthorized, UserExists) as e:
         response = e.getError()
     except Exception as e:
         logger.error(traceback.format_exc())

@@ -1,6 +1,7 @@
 import os
 import json
 from ConfigManager import Config
+from Utils.DAL.Services.UserService import UserService
 
 base_dir = os.path.dirname(__file__)
 
@@ -18,3 +19,8 @@ def initConfig(stage: str = "dev"):
             env = json.load(file)
         loadConfig(env)
         loadConfig(env.get(stage))
+
+    user_service = UserService()
+    user_service.initConnection()
+
+    Config.register("user_service", user_service)

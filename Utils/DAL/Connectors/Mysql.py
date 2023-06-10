@@ -1,6 +1,7 @@
 from ConfigManager import Config
 from sqlalchemy import create_engine
 from sqlalchemy.orm.session import Session
+from sqlalchemy.orm import sessionmaker
 from contextlib import contextmanager
 from sqlalchemy.engine.base import Engine
 import logging
@@ -20,8 +21,8 @@ class MySQLConnector(Base):
     connection_type_config_key = "SA_CONN_TYPE"
     pool_size_config_key = "SA_CONN_POLL_SIZE"
 
-    def __init__(self) -> None:
-        pass
+    def __init__(self, **kwargs) -> None:
+        super().__init__(**kwargs)
 
     def initConnection(self):
         engine = self.activeConnections.get(self._connection_name)
@@ -37,6 +38,8 @@ class MySQLConnector(Base):
         )
         engine.connect()
         self._registerConnection(self._connection_name, engine)
+        if not self.__class__._local_session:
+            self.__class__._local_session = sessionmaker(autoflush=True, bind=engine)
         return engine
 
     def terminateConnection(self) -> None:
@@ -50,8 +53,7 @@ class MySQLConnector(Base):
     @contextmanager
     def session(self) -> Session:
         engine: Engine = self.activeConnections.get(self._connection_name)
-
-        session: Session = self.__class__._local_session()
+        session = self.__class__._local_session()
 
         if not engine or not self.__class__._local_session:
             self.initConnection()

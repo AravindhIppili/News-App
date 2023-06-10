@@ -6,7 +6,7 @@ from Middlewares import add_middlewares
 
 app = FastAPI()
 
-app.include_router(router=v1_router, prefix="/api/v1/news")
+app.include_router(router=v1_router, prefix="/api/v1")
 add_middlewares(app)
 
 initConfig("dev")

@@ -1,6 +1,8 @@
 {
     "common": {
-        "NEWSAPI_MAX_ARTICLES": 5
+        "NEWSAPI_MAX_ARTICLES": 5,
+        "SA_CONN_TYPE": "mysql",
+        "SA_CONN_POLL_SIZE": 1
     },
     "dev": {}
 }

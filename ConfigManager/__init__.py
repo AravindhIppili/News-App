@@ -32,7 +32,7 @@ class Config:
                     return config
             if raise_error:
                 logger.warning(message)
-                raise ConfigNotFoundException
+                raise ConfigNotFoundException("")
             logger.debug(message)
             return default_value
         except Exception:

@@ -1,6 +1,6 @@
 from typing import Any
 from eventregistry import *
-from .article import Article
+from ..Models.models import Article
 from ConfigManager import Config
 
 

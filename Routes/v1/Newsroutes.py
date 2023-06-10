@@ -1,6 +1,6 @@
 from .Router import v1_router as router
 import json
-from Services.NewsApi.fetcher import NewsApiFetcher
+from Utils.Services.NewsApi.fetcher import NewsApiFetcher
 from ConfigManager import Config
 
 

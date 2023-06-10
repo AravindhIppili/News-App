@@ -32,11 +32,11 @@ class BaseException(HTTPException):
         }
 
 
-class ConfigNotFoundException(HTTPException):
+class ConfigNotFoundException(BaseException):
     pass
 
 
-class UnknownError(HTTPException):
+class UnknownError(BaseException):
     pass
 
 

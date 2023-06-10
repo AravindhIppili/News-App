@@ -2,3 +2,5 @@ fastapi
 uvicorn[standard]
 eventregistry==9.0
 kink
+SQLAlchemy
+mysql-connector-python
